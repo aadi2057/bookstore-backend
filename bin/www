@@ -7,7 +7,7 @@
 var app = require("../app");
 var debug = require("debug")("bookstore:server");
 var http = require("http");
-
+var path = require("path");
 /**
  * Get port from environment and store in Express.
  */
@@ -15,9 +15,6 @@ var http = require("http");
 var port = normalizePort(process.env.PORT || "5000");
 app.set("port", port);
 
-/**
- * Create HTTP server.
- */
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("../client/bookhub/build"));
 
@@ -25,7 +22,9 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.resolve("client", "bookhub", "build", "index.html"));
   });
 }
-
+/**
+ * Create HTTP server.
+ */
 var server = http.createServer(app);
 
 /**
