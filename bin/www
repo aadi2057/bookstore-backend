@@ -17,10 +17,14 @@ var port = normalizePort(process.env.PORT || "5000");
 app.set("port", port);
 
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static("../bookstore/client/bookhub/build"));
+  app.use(
+    express.static(path.resolve(__dirname, "../client", "bookhub", "build"))
+  );
 
   app.get("*", (req, res) => {
-    res.sendFile(path.resolve("client", "bookhub", "build", "index.html"));
+    res.sendFile(
+      path.resolve(__dirname, "../client", "bookhub", "build", "index.html")
+    );
   });
 }
 /**
@@ -34,7 +38,7 @@ var server = http.createServer(app);
 
 server.listen(port, () => {
   console.log(`Server running at port ${port}`);
-  console.log(path.resolve("client", "bookhub", "build", "index.html"));
+  console.log(path.resolve(__dirname, "../client", "bookhub"));
 });
 server.on("error", onError);
 server.on("listening", onListening);
