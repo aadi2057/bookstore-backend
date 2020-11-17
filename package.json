@@ -1,7 +1,6 @@
 {
   "name": "bookstore",
   "version": "0.0.0",
-  "homepage": "https://infinite-garden-80024.herokuapp.com/",
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
