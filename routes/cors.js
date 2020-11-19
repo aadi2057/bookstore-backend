@@ -6,8 +6,8 @@ const whitelist = [
   "http://localhost:3000",
   "https://priceless-jepsen-13b672.netlify.app",
   "https://localhost:3443",
-  "http://DESKTOP-7TNJILS:3001",
-  "http://localhost:3001",
+  "http://DESKTOP-7TNJILS:3000",
+  "http://localhost:3000",
 ];
 var corsOptionsDelegate = (req, callback) => {
   var corsOptions;

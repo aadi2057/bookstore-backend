@@ -26,8 +26,9 @@ bookRouter
       )
       .catch((err) => next(err));
   })
-  .post(cors.corsWithOptions, (req, res, next) => {
-    console.log(req.signedCookies);
+  .post(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
+    console.log(req.headers["set-cookie"]);
+    // console.log(req.h);
     Books.create(req.body)
       .then(
         (book) => {
@@ -57,7 +58,7 @@ bookRouter
       )
       .catch((err) => next(err));
   })
-  .post(cors.corsWithOptions, (req, res, next) => {
+  .post(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
     res.statusCode = 403;
     res.end("POST Operation Not Supported");
   })
@@ -79,7 +80,8 @@ bookRouter
       )
       .catch((err) => next(err));
   })
-  .delete(cors.corsWithOptions, (req, res, next) => {
+  .delete(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
+    console.log(req.headers["set-cookie"]);
     Books.findByIdAndRemove(req.params.bookId)
       .then(
         (resp) => {
