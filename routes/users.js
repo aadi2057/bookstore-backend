@@ -108,7 +108,7 @@ router
           signed: true,
           path: "/",
           httpOnly: true,
-          // sameSite: "none",
+          sameSite: "none",
         });
 
         res.json({ success: true, status: "Login Successful!", token: token });
