@@ -107,8 +107,8 @@ router
         res.cookie("jwt-token", token, {
           signed: true,
           path: "/",
+          sameSite: false,
           httpOnly: true,
-          sameSite: "none",
         });
 
         res.json({ success: true, status: "Login Successful!", token: token });
