@@ -27,7 +27,8 @@ bookRouter
       .catch((err) => next(err));
   })
   .post(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
-    console.log(req.headers["set-cookie"]);
+    console.log("Cookies: " + req.headers["set-cookie"]);
+    // console.log("Signed Cookies: " + req.signedCookies);
     // console.log(req.h);
     Books.create(req.body)
       .then(
@@ -81,7 +82,8 @@ bookRouter
       .catch((err) => next(err));
   })
   .delete(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
-    console.log(req.headers["set-cookie"]);
+    // console.log(req.headers["set-cookie"]);
+    console.log(req.signedCookies);
     Books.findByIdAndRemove(req.params.bookId)
       .then(
         (resp) => {

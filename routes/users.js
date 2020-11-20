@@ -100,16 +100,16 @@ router
             err: "Could not log in user!",
           });
         }
-
-        var token = authenticate.getToken({ _id: req.user._id });
-        res.cookie("token", token, {
-          signed: true,
-          httpOnly: true,
-          // domain: "http://localhost:3000",
-          sameSite: false,
-        });
         res.statusCode = 200;
         res.setHeader("Content-Type", "application/json");
+
+        var token = authenticate.getToken({ _id: req.user._id });
+        res.cookie("jwt-token", token, {
+          signed: true,
+          path: "/",
+          httpOnly: true,
+          // sameSite: "none",
+        });
 
         res.json({ success: true, status: "Login Successful!", token: token });
       });

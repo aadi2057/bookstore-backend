@@ -19,8 +19,8 @@ exports.getToken = (user) => {
 exports.jwtPassport = passport.use(
   new JwtStrategy(
     {
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      //   jwtFromRequest: (req) => req.signedCookies.token,
+      // jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      jwtFromRequest: (req) => req.signedCookies["jwt-token"],
       secretOrKey: config.secretKey,
     },
     (jwt_payload, done) => {
