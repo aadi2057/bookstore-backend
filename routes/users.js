@@ -34,46 +34,51 @@ router
     }
   );
 
-router.post("/register", cors.corsWithOptions, (req, res, next) => {
-  User.register(
-    new User({ username: req.body.username }),
-    req.body.password,
-    (err, user) => {
-      // console.log(req.body);
-      if (err) {
-        res.statusCode = 500;
-        res.setHeader("Content-Type", "application/json");
-        res.json({ err: err });
-      } else {
-        if (req.body.firstname) {
-          user.firstname = req.body.firstname;
-        }
-        if (req.body.lastname) {
-          user.lastname = req.body.lastname;
-        }
-        if (req.body.email) {
-          user.email = req.body.email;
-        }
-        if (req.body.gender) {
-          user.gender = req.body.gender;
-        }
-        user.save((err, user) => {
-          if (err) {
-            res.statusCode = 500;
-            res.setHeader("Content-Type", "application/json");
-            res.json({ err: err });
-            return;
+router
+  .route("/register")
+  .options(cors.corsWithOptions, (req, res) => {
+    res.sendStatus(200);
+  })
+  .post(cors.corsWithOptions, (req, res, next) => {
+    User.register(
+      new User({ username: req.body.username }),
+      req.body.password,
+      (err, user) => {
+        // console.log(req.body);
+        if (err) {
+          res.statusCode = 500;
+          res.setHeader("Content-Type", "application/json");
+          res.json({ err: err });
+        } else {
+          if (req.body.firstname) {
+            user.firstname = req.body.firstname;
           }
-          passport.authenticate("local")(req, res, () => {
-            res.statusCode = 200;
-            res.setHeader("Content-Type", "application/json");
-            res.json({ success: true, status: "Registration Successful!" });
+          if (req.body.lastname) {
+            user.lastname = req.body.lastname;
+          }
+          if (req.body.email) {
+            user.email = req.body.email;
+          }
+          if (req.body.gender) {
+            user.gender = req.body.gender;
+          }
+          user.save((err, user) => {
+            if (err) {
+              res.statusCode = 500;
+              res.setHeader("Content-Type", "application/json");
+              res.json({ err: err });
+              return;
+            }
+            passport.authenticate("local")(req, res, () => {
+              res.statusCode = 200;
+              res.setHeader("Content-Type", "application/json");
+              res.json({ success: true, status: "Registration Successful!" });
+            });
           });
-        });
+        }
       }
-    }
-  );
-});
+    );
+  });
 
 router
   .route("/login")
@@ -104,9 +109,10 @@ router
         res.cookie("jwt-token", token, {
           signed: true,
           path: "/",
-          secure: true,
-          sameSite: "none",
-          // sameSite: "None",
+          // For production
+          // secure: true,
+          // sameSite: "none",
+
           httpOnly: true,
         });
         res.statusCode = 200;
