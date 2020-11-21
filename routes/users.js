@@ -105,7 +105,7 @@ router
           signed: true,
           path: "/",
           secure: true,
-          // sameSite: "none",
+          sameSite: "none",
           // sameSite: "None",
           httpOnly: true,
         });
