@@ -17,22 +17,22 @@ router
   .options(cors.corsWithOptions, (req, res) => {
     res.sendStatus(200);
   })
-  .get(cors.corsWithOptions, authenticate.verifyUser, function (
-    req,
-    res,
-    next
-  ) {
-    User.find({})
-      .then(
-        (users) => {
-          res.statusCode = 200;
-          res.setHeader("Content-Type", "application/json");
-          res.json(users);
-        },
-        (err) => next(err)
-      )
-      .catch((err) => next(err));
-  });
+  .get(
+    cors.corsWithOptions,
+    authenticate.verifyUser,
+    function (req, res, next) {
+      User.find({})
+        .then(
+          (users) => {
+            res.statusCode = 200;
+            res.setHeader("Content-Type", "application/json");
+            res.json(users);
+          },
+          (err) => next(err)
+        )
+        .catch((err) => next(err));
+    }
+  );
 
 router.post("/register", cors.corsWithOptions, (req, res, next) => {
   User.register(
@@ -100,18 +100,20 @@ router
             err: "Could not log in user!",
           });
         }
-        res.statusCode = 200;
-        res.setHeader("Content-Type", "application/json");
-
         var token = authenticate.getToken({ _id: req.user._id });
         res.cookie("jwt-token", token, {
           signed: true,
           path: "/",
-          sameSite: false,
+          secure: true,
+          // sameSite: "none",
+          // sameSite: "None",
           httpOnly: true,
         });
-
+        res.statusCode = 200;
+        res.setHeader("Content-Type", "application/json");
         res.json({ success: true, status: "Login Successful!", token: token });
+
+        // res.end();
       });
     })(req, res, next);
   });
