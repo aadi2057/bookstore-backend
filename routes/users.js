@@ -124,4 +124,22 @@ router
     })(req, res, next);
   });
 
+router
+  .route("/logout")
+  .options(cors.corsWithOptions, (req, res) => {
+    res.sendStatus(200);
+  })
+  .post(cors.corsWithOptions, (req, res, next) => {
+    // if (req.session) {
+    // console.log(req.session);
+    // req.session.destroy();
+    res.statusCode = 200;
+    res.setHeader("Content-Type", "application/json");
+    res.clearCookie("jwt-token", { path: "/", signed: true, httpOnly: true });
+    res.json({ success: true, message: "Logout Successfull" });
+
+    // res.redirect("/");
+    // }
+  });
+
 module.exports = router;
