@@ -23,6 +23,10 @@ const User = new Schema(
       default: "",
       //   unique: true,
     },
+    image: {
+      type: String,
+      default: "",
+    },
   },
   {
     timestamps: true,

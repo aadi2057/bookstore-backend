@@ -10,7 +10,7 @@ var authenticate = require("./authenticate");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var bookRouter = require("./routes/bookRouter");
-
+var profileRouter = require("./routes/profileImageRouter");
 var app = express();
 
 // view engine setup
@@ -28,7 +28,7 @@ app.use(passport.initialize());
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/books", bookRouter);
-
+app.use("/profileImage", profileRouter);
 const mongoose = require("mongoose");
 
 // const Books = require('./models/books');

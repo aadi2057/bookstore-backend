@@ -5,6 +5,8 @@ const cors = require("./cors");
 const authenticate = require("../authenticate");
 var passport = require("passport");
 var fs = require("fs");
+const user = require("../models/user");
+
 var router = express.Router();
 router.use(bodyParser.json());
 
@@ -62,6 +64,11 @@ router
           if (req.body.gender) {
             user.gender = req.body.gender;
           }
+          if (req.body.imageName) {
+            user.image = "images/profile/" + req.body.imageName;
+          }
+          // if (req.body.image) {
+          // }
           user.save((err, user) => {
             if (err) {
               res.statusCode = 500;
@@ -117,7 +124,7 @@ router
         });
         res.statusCode = 200;
         res.setHeader("Content-Type", "application/json");
-        res.json({ success: true, status: "Login Successful!", token: token });
+        res.json({ success: true, status: "Login Successful!", user: user });
 
         // res.end();
       });
@@ -140,6 +147,24 @@ router
 
     // res.redirect("/");
     // }
+  });
+
+router
+  .route("/user")
+  .options(cors.corsWithOptions, (req, res) => {
+    res.sendStatus(200);
+  })
+  .get(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
+    User.findById(req.user._id)
+      .then(
+        (user) => {
+          res.statusCode = 200;
+          res.setHeader("Content-Type", "application/json");
+          res.json(user);
+        },
+        (err) => next(err)
+      )
+      .catch((err) => next(err));
   });
 
 module.exports = router;
