@@ -11,6 +11,8 @@ var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var bookRouter = require("./routes/bookRouter");
 var profileRouter = require("./routes/profileImageRouter");
+var reviewRouter = require("./routes/reviewRouter");
+
 var app = express();
 
 // view engine setup
@@ -29,6 +31,8 @@ app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/books", bookRouter);
 app.use("/profileImage", profileRouter);
+app.use("/comments", reviewRouter);
+
 const mongoose = require("mongoose");
 
 // const Books = require('./models/books');
