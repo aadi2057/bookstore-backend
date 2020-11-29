@@ -11,7 +11,8 @@ const commentSchema = new Schema(
       type: Number,
       min: 1,
       max: 5,
-      required: true,
+      // required: true,
+      default: 1,
     },
     author: {
       type: mongoose.Schema.Types.ObjectId,

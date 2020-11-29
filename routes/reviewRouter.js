@@ -17,6 +17,7 @@ reviewRouter
   })
   .get(cors.cors, (req, res, next) => {
     Comments.find(req.query)
+      .sort({ updatedAt: -1 })
       .populate("author")
       .populate("book")
       .then(
@@ -132,27 +133,30 @@ reviewRouter
   })
   .delete(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
     Comments.findById(req.params.commentId)
+      // .populate("author")
+
       .then(
         (comment) => {
+          console.log(comment.author);
+          console.log(req.user._id);
           if (comment) {
-            if (comment.author === req.user._id) {
-              Comments.findByIdAndRemove(req.params.commentId)
-                .then(
-                  (resp) => {
-                    res.statusCode = 200;
-                    res.setHeader("Content-Type", "application/json");
-                    res.json(resp);
-                  },
-                  (err) => next(err)
-                )
-                .catch((err) => next(err));
-            } else {
+            if (!comment.author === req.user._id) {
               err = new Error(
                 "Operation failed! You're not authorized to perform this operation"
               );
               err.status = 403;
               return next(err);
             }
+            Comments.findByIdAndRemove(req.params.commentId)
+              .then(
+                (resp) => {
+                  res.statusCode = 200;
+                  res.setHeader("Content-Type", "application/json");
+                  res.json(resp);
+                },
+                (err) => next(err)
+              )
+              .catch((err) => next(err));
           } else {
             err = new Error("Comment " + req.params.commentId + " not found");
             err.status = 404;
