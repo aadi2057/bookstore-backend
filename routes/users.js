@@ -117,8 +117,8 @@ router
           signed: true,
           path: "/",
           // For production
-          secure: true,
-          sameSite: "none",
+          // secure: true,
+          // sameSite: "none",
 
           httpOnly: true,
         });

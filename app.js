@@ -12,6 +12,7 @@ var usersRouter = require("./routes/users");
 var bookRouter = require("./routes/bookRouter");
 var profileRouter = require("./routes/profileImageRouter");
 var reviewRouter = require("./routes/reviewRouter");
+var bookImage = require("./routes/bookImage");
 
 var app = express();
 
@@ -32,6 +33,7 @@ app.use("/users", usersRouter);
 app.use("/books", bookRouter);
 app.use("/profileImage", profileRouter);
 app.use("/comments", reviewRouter);
+app.use("/bookImage", bookImage);
 
 const mongoose = require("mongoose");
 

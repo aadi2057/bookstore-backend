@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 
 const Books = require("../models/books");
+const Comments = require("../models/comments");
 
 const cors = require("./cors");
 var authenticate = require("../authenticate");
@@ -84,7 +85,8 @@ bookRouter
   .delete(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
     // console.log(req.headers["set-cookie"]);
     console.log(req.signedCookies);
-    Books.findByIdAndRemove(req.params.bookId)
+    Books.findByIdAndRemove(req.params.bookId);
+    Comments.deleteMany({ book: req.params.bookId })
       .then(
         (resp) => {
           res.statusCode = 200;
