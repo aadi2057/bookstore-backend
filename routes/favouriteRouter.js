@@ -217,7 +217,7 @@ favouriteRouter
                     .then((favourites) => {
                       res.statusCode = 200;
                       res.setHeader("Content-Type", "application/json");
-                      res.json({ status: true, result });
+                      res.json({ status: true, result, favourites });
                     });
                 },
                 (err) => next(err)

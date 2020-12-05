@@ -85,13 +85,15 @@ bookRouter
   .delete(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
     // console.log(req.headers["set-cookie"]);
     console.log(req.signedCookies);
-    Books.findByIdAndRemove(req.params.bookId);
-    Comments.deleteMany({ book: req.params.bookId })
+    Books.findByIdAndRemove(req.params.bookId)
+
       .then(
         (resp) => {
-          res.statusCode = 200;
-          res.setHeader("Content-Type", "application/json");
-          res.json(resp);
+          Comments.deleteMany({ book: req.params.bookId }).then((resp) => {
+            res.statusCode = 200;
+            res.setHeader("Content-Type", "application/json");
+            res.json(resp);
+          });
         },
         (err) => next(err)
       )
